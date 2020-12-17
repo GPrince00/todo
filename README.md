@@ -1,2 +1,3 @@
-# todo
-A To do list
+# To Do List
+
+This is a to do list.
