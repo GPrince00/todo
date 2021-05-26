@@ -1,29 +1,41 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useFormik } from 'formik';
 
 function App() {
-  const [task, setTask] = useState("");
   const [list, setList] = useState([]);
 
   useEffect(() => {
     setList(JSON.parse(localStorage.getItem("list")) || []);
   }, [])
-  
-  
-  const AddTask = (newTask) => {
-    let updatedList = list.slice();
-    updatedList.push(newTask);
-    setList(updatedList);
-    localStorage.setItem("list", JSON.stringify(updatedList));
-    setTask("");
-  }
+
+  const formik = useFormik({
+    initialValues: {
+      task: ''
+    },
+    onSubmit: values => {
+      let updatedList = list.slice();
+      updatedList.push(values.task);
+      setList(updatedList);
+      localStorage.setItem("list", JSON.stringify(updatedList));
+      formik.resetForm();
+    },
+  });
 
   return (
     <Wrapper>
       <Title>To do</Title>
       <AddNewTask>
-        <input type="text" value={task} onChange={(e) => setTask(e.target.value)} />
-        <button onClick={() => AddTask(task)} >Add</button>
+        <form onSubmit={formik.handleSubmit}>
+          <input
+            id="task"
+            name="task"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.task || ''}
+          />
+          <button type="submit">Add</button>
+        </form>
       </AddNewTask>
       <ListOfTasks>
         {list.map((item, index) => (
