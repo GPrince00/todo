@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 function App() {
   const [task, setTask] = useState("");
   const [list, setList] = useState([]);
 
+  useEffect(() => {
+    setList(JSON.parse(localStorage.getItem("list")) || []);
+  }, [])
+  
+  
   const AddTask = (newTask) => {
     let updatedList = list.slice();
     updatedList.push(newTask);
     setList(updatedList);
-    setTask("")
+    localStorage.setItem("list", JSON.stringify(updatedList));
+    setTask("");
   }
 
   return (
