@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 function App() {
   const [list, setList] = useState([]);
@@ -11,8 +12,13 @@ function App() {
 
   const formik = useFormik({
     initialValues: {
-      task: ''
+      task: '',
     },
+    validationSchema: Yup.object({
+      task: Yup.string()
+        .min(5, 'Must be 5 characters or more')
+        .required('Required')
+    }),
     onSubmit: values => {
       let updatedList = list.slice();
       updatedList.push(values.task);
