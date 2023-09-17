@@ -17,11 +17,8 @@ function App() {
     },
     validationSchema: Yup.object({
       task: Yup.string()
-        .min(5, 'Must be 5 characters or more')
-        .required('Required'),
-      description: Yup.string()
-        .min(5, 'Must be 5 characters or more')
-        .required('Required')
+        .min(5, "Must be 5 characters or more")
+        .required("Required"),
     }),
     onSubmit: (values) => {
       let updatedList = list.slice();
