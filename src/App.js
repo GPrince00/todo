@@ -1,27 +1,31 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 function App() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
     setList(JSON.parse(localStorage.getItem("list")) || []);
-  }, [])
+  }, []);
 
   const formik = useFormik({
     initialValues: {
-      task: '',
+      task: "",
+      description: "",
     },
     validationSchema: Yup.object({
       task: Yup.string()
         .min(5, 'Must be 5 characters or more')
+        .required('Required'),
+      description: Yup.string()
+        .min(5, 'Must be 5 characters or more')
         .required('Required')
     }),
-    onSubmit: values => {
+    onSubmit: (values) => {
       let updatedList = list.slice();
-      updatedList.push(values.task);
+      updatedList.push({ task: values.task, description: values.description });
       setList(updatedList);
       localStorage.setItem("list", JSON.stringify(updatedList));
       formik.resetForm();
@@ -38,14 +42,24 @@ function App() {
             name="task"
             type="text"
             onChange={formik.handleChange}
-            value={formik.values.task || ''}
+            value={formik.values.task || ""}
+          />
+          <input
+            id="description"
+            name="description"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.description || ""}
           />
           <button type="submit">Add</button>
         </form>
       </AddNewTask>
       <ListOfTasks>
         {list.map((item, index) => (
-          <p key={index}>{item}</p>
+          <div key={index}>
+            <p>{item.task}</p>
+            <p>{item.description}</p>
+          </div>
         ))}
       </ListOfTasks>
     </Wrapper>
@@ -59,14 +73,13 @@ const Wrapper = styled.div`
   align-items: center;
   background-color: #d0d0d0;
   flex-direction: column;
+  height: 100vh;
 `;
 
 const Title = styled.h1`
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 `;
 
-const AddNewTask = styled.div`
-`;
+const AddNewTask = styled.div``;
 
-const ListOfTasks = styled.div`
-`;
+const ListOfTasks = styled.div``;
