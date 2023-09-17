@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import {v4 as uuidv4} from 'uuid';
 
 function App() {
   const [list, setList] = useState([]);
@@ -22,7 +23,7 @@ function App() {
     }),
     onSubmit: (values) => {
       let updatedList = list.slice();
-      updatedList.push({ task: values.task, description: values.description });
+      updatedList.push({ uuid: uuidv4(), task: values.task, description: values.description });
       setList(updatedList);
       localStorage.setItem("list", JSON.stringify(updatedList));
       formik.resetForm();
@@ -53,6 +54,7 @@ function App() {
       </AddNewTask>
       <ListOfTasks>
         {list.map((item, index) => (
+          
           <div key={index}>
             <p>{item.task}</p>
             <p>{item.description}</p>
