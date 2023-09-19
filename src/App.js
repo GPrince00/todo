@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [list, setList] = useState([]);
@@ -23,12 +23,23 @@ function App() {
     }),
     onSubmit: (values) => {
       let updatedList = list.slice();
-      updatedList.push({ uuid: uuidv4(), task: values.task, description: values.description });
+      updatedList.push({
+        uuid: uuidv4(),
+        task: values.task,
+        description: values.description,
+      });
       setList(updatedList);
       localStorage.setItem("list", JSON.stringify(updatedList));
       formik.resetForm();
     },
   });
+
+  const deleteItem = (uuid) => {
+    let lists = list.slice();
+    const updatedList = lists.filter((item) => item.uuid !== uuid);
+    localStorage.setItem("list", JSON.stringify(updatedList));
+    setList(updatedList);
+  };
 
   return (
     <Wrapper>
@@ -54,8 +65,8 @@ function App() {
       </AddNewTask>
       <ListOfTasks>
         {list.map((item, index) => (
-          
           <div key={index}>
+            <button onClick={() => deleteItem(item.uuid)}>delete</button>
             <p>{item.task}</p>
             <p>{item.description}</p>
           </div>
