@@ -67,7 +67,10 @@ function App() {
               onChange={formik.handleChange}
               value={formik.values.description || ""}
             />
-            <button type="submit">Add</button>
+            <div className="buttonContainer">
+              <button type="submit">Add</button>
+              <button onClick={() => setFormOpen(false)}>Cancel</button>
+            </div>
           </form>
         </AddNewTaskForm>
       )}
@@ -115,8 +118,12 @@ const AddNewTaskForm = styled.div`
     input {
       margin-bottom: 0.5rem;
     }
-    button {
+    .buttonContainer {
       margin-top: 1rem;
+      display: flex;
+      button {
+        width: 100%;
+      }
     }
   }
 `;
