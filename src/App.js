@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [data, setdata] = useState([]);
+  const [formOpen, setFormOpen] = useState(false);
 
   useEffect(() => {
     setdata(JSON.parse(localStorage.getItem("data")) || []);
@@ -31,6 +32,7 @@ function App() {
       setdata(updateddata);
       localStorage.setItem("data", JSON.stringify(updateddata));
       formik.resetForm();
+      setFormOpen(false);
     },
   });
 
@@ -44,25 +46,31 @@ function App() {
   return (
     <Wrapper>
       <Title>To do</Title>
-      <AddNewTask>
-        <form onSubmit={formik.handleSubmit}>
-          <input
-            id="task"
-            name="task"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.task || ""}
-          />
-          <input
-            id="description"
-            name="description"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.description || ""}
-          />
-          <button type="submit">Add</button>
-        </form>
-      </AddNewTask>
+      <button onClick={() => setFormOpen(true)}>Add</button>
+      {formOpen && (
+        <AddNewTaskForm>
+          <form onSubmit={formik.handleSubmit}>
+            <h1>Add Task Form</h1>
+            <h3>Task</h3>
+            <input
+              id="task"
+              name="task"
+              type="text"
+              onChange={formik.handleChange}
+              value={formik.values.task || ""}
+            />
+            <h3>Description</h3>
+            <input
+              id="description"
+              name="description"
+              type="text"
+              onChange={formik.handleChange}
+              value={formik.values.description || ""}
+            />
+            <button type="submit">Add</button>
+          </form>
+        </AddNewTaskForm>
+      )}
       <List>
         {data.map((item, index) => (
           <Item key={index}>
@@ -87,10 +95,31 @@ const Wrapper = styled.div`
   height: 100vh;
 `;
 
-const Title = styled.h1`
-`;
+const Title = styled.h1``;
 
-const AddNewTask = styled.div``;
+const AddNewTaskForm = styled.div`
+  position: absolute;
+  background-color: grey;
+  border-radius: 4px;
+  width: 16rem;
+  margin: 50%;
+  padding: 1rem 1rem 2rem;
+  form {
+    display: flex;
+    flex-direction: column;
+    h1 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    input {
+      margin-bottom: 0.5rem;
+    }
+    button {
+      margin-top: 1rem;
+    }
+  }
+`;
 
 const List = styled.div`
   box-sizing: border-box;
