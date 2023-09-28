@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
   const [data, setdata] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
 
@@ -12,33 +12,23 @@ function App() {
     setdata(JSON.parse(localStorage.getItem("data")) || []);
   }, []);
 
-  const formik = useFormik({
-    initialValues: {
-      task: "",
-      description: "",
-    },
-    validationSchema: Yup.object({
-      task: Yup.string()
-        .min(5, "Must be 5 characters or more")
-        .required("Required"),
-    }),
-    onSubmit: (values) => {
-      let updateddata = data.slice();
-      updateddata.push({
-        uuid: uuidv4(),
-        task: values.task,
-        description: values.description,
-      });
-      setdata(updateddata);
-      localStorage.setItem("data", JSON.stringify(updateddata));
-      formik.resetForm();
-      setFormOpen(false);
-    },
-  });
+  const addItem = () => {
+    let updateddata = data.slice();
+    updateddata.push({
+      uuid: uuidv4(),
+      task: taskTitle,
+      description: taskDescription,
+    });
+    setdata(updateddata);
+    localStorage.setItem("data", JSON.stringify(updateddata));
+    setTaskDescription("");
+    setTaskTitle("");
+    setFormOpen(false);
+  };
 
   const deleteItem = (uuid) => {
-    let datas = data.slice();
-    const updateddata = datas.filter((item) => item.uuid !== uuid);
+    let array = data.slice();
+    const updateddata = array.filter((item) => item.uuid !== uuid);
     localStorage.setItem("data", JSON.stringify(updateddata));
     setdata(updateddata);
   };
@@ -49,23 +39,23 @@ function App() {
       <button onClick={() => setFormOpen(true)}>Add</button>
       {formOpen && (
         <AddNewTaskForm>
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={() => addItem()}>
             <h1>Add Task Form</h1>
             <h3>Task</h3>
             <input
               id="task"
               name="task"
               type="text"
-              onChange={formik.handleChange}
-              value={formik.values.task || ""}
+              onChange={(e) => setTaskTitle(e.target.value)}
+              value={taskTitle}
             />
             <h3>Description</h3>
             <input
               id="description"
               name="description"
               type="text"
-              onChange={formik.handleChange}
-              value={formik.values.description || ""}
+              onChange={(e) => setTaskDescription(e.target.value)}
+              value={taskDescription}
             />
             <div className="buttonContainer">
               <button type="submit">Add</button>
