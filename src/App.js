@@ -7,6 +7,7 @@ function App() {
   const [taskDescription, setTaskDescription] = useState("");
   const [data, setdata] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
+  const [editing, setEditing] = useState(0);
 
   useEffect(() => {
     setdata(JSON.parse(localStorage.getItem("data")) || []);
@@ -33,13 +34,28 @@ function App() {
     setdata(updateddata);
   };
 
+  const editItem = () => {
+    let updateddata = data.slice();
+    updateddata[editing] = {
+      uuid: updateddata[editing].uuid,
+      task: taskTitle,
+      description: taskDescription,
+    };
+    setdata(updateddata);
+    localStorage.setItem("data", JSON.stringify(updateddata));
+    setTaskDescription("");
+    setTaskTitle("");
+    setEditing(0);
+    setFormOpen(false);
+  };
+
   return (
     <Wrapper>
       <Title>To do</Title>
       <button onClick={() => setFormOpen(true)}>Add</button>
       {formOpen && (
         <AddNewTaskForm>
-          <form onSubmit={() => addItem()}>
+          <form onSubmit={() => (editing ? editItem() : addItem())}>
             <h1>Add Task Form</h1>
             <h3>Task</h3>
             <input
@@ -58,7 +74,7 @@ function App() {
               value={taskDescription}
             />
             <div className="buttonContainer">
-              <button type="submit">Add</button>
+              <button type="submit">Save</button>
               <button onClick={() => setFormOpen(false)}>Cancel</button>
             </div>
           </form>
@@ -66,7 +82,15 @@ function App() {
       )}
       <List>
         {data.map((item, index) => (
-          <Item key={index}>
+          <Item
+            key={index}
+            onClick={() => {
+              setEditing(index);
+              setTaskDescription(item.description);
+              setTaskTitle(item.task);
+              setFormOpen(true);
+            }}
+          >
             <TextContainer>
               <p id="title">{item.task}</p>
               <p id="description">{item.description}</p>
