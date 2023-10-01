@@ -75,7 +75,15 @@ function App() {
             />
             <div className="buttonContainer">
               <button type="submit">Save</button>
-              <button onClick={() => setFormOpen(false)}>Cancel</button>
+              <button
+                onClick={() => {
+                  setTaskDescription("");
+                  setTaskTitle("");
+                  setFormOpen(false);
+                }}
+              >
+                Cancel
+              </button>
             </div>
           </form>
         </AddNewTaskForm>
