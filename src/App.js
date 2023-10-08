@@ -135,7 +135,12 @@ const Wrapper = styled.div`
   color: ${({ theme }) => theme.text};
 `;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+  font-family: "Young Serif", serif;
+`;
 
 const AddNewTaskForm = styled.div`
   position: absolute;
