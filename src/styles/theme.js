@@ -1,7 +1,7 @@
 export const dark = {
   primary: "#415d43",
   secundary: "#29382A",
-  background: "#071013",
+  background: "#052100",
   black: "#071013",
   white: "#FCFFFC",
   text: "#FCFFFC",
