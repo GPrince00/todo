@@ -64,7 +64,13 @@ function App() {
         >
           switchTheme
         </button>
-        <button onClick={() => setFormOpen(true)}>Add</button>
+        <AddButton onClick={() => setFormOpen(true)}>
+          {theme === "light" ? (
+            <img alt="plus-icon" src="assets/plus-light.png"></img>
+          ) : (
+            <img alt="plus-icon" src="assets/plus-dark.png"></img>
+          )}
+        </AddButton>
         {formOpen && (
           <AddNewTaskForm>
             <form onSubmit={() => (editing ? editItem() : addItem())}>
@@ -140,6 +146,21 @@ const Title = styled.h1`
   font-weight: 700;
   margin: 1rem 0 0.5rem;
   font-family: "Young Serif", serif;
+`;
+
+const AddButton = styled.div`
+  background-color: ${({ theme }) => theme.primary};
+  border: 1px solid ${({ theme }) => theme.secundary};
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
 `;
 
 const AddNewTaskForm = styled.div`
