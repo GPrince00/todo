@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import Toggle from "./components/toggleSwitch";
 
 import { ThemeProvider } from "styled-components";
 import { dark, light } from "./styles/theme";
@@ -53,24 +54,24 @@ function App() {
     setFormOpen(false);
   };
 
+  const changeTheme = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
+
   return (
     <ThemeProvider theme={theme === "light" ? light : dark}>
       <Wrapper>
         <Title>To do</Title>
-        <button
-          onClick={() =>
-            theme === "light" ? setTheme("dark") : setTheme("light")
-          }
-        >
-          switchTheme
-        </button>
-        <AddButton onClick={() => setFormOpen(true)}>
-          {theme === "light" ? (
-            <img alt="plus-icon" src="assets/plus-light.png"></img>
-          ) : (
-            <img alt="plus-icon" src="assets/plus-dark.png"></img>
-          )}
-        </AddButton>
+        <ActionsContainer>
+          <AddButton onClick={() => setFormOpen(true)}>
+            {theme === "light" ? (
+              <img alt="plus-icon" src="assets/plus-light.png"></img>
+            ) : (
+              <img alt="plus-icon" src="assets/plus-dark.png"></img>
+            )}
+          </AddButton>
+          <Toggle changeTheme={() => changeTheme()} />
+        </ActionsContainer>
         {formOpen && (
           <AddNewTaskForm>
             <form onSubmit={() => (editing ? editItem() : addItem())}>
@@ -148,6 +149,12 @@ const Title = styled.h1`
   font-family: "Young Serif", serif;
 `;
 
+const ActionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+`;
 const AddButton = styled.div`
   background-color: ${({ theme }) => theme.primary};
   border: 1px solid ${({ theme }) => theme.secundary};
