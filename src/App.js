@@ -109,16 +109,15 @@ function App() {
         )}
         <List>
           {data.map((item, index) => (
-            <Item
-              key={index}
-              onClick={() => {
-                setEditing(index);
-                setTaskDescription(item.description);
-                setTaskTitle(item.task);
-                setFormOpen(true);
-              }}
-            >
-              <TextContainer>
+            <Item key={index}>
+              <TextContainer
+                onClick={() => {
+                  setEditing(index);
+                  setTaskDescription(item.description);
+                  setTaskTitle(item.task);
+                  setFormOpen(true);
+                }}
+              >
                 <p id="title">{item.task}</p>
                 <p id="description">{item.description}</p>
               </TextContainer>
@@ -217,6 +216,7 @@ const Item = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   #title {
     font-size: 1rem;
     font-weight: 500;
