@@ -6,8 +6,8 @@ const ToggleSwitch = ({changeTheme}) => {
       <input type="checkbox" id="hide-checkbox" onChange={() => changeTheme()} />
       <label for="hide-checkbox" className="toggle">
         <span className="toggle-button"></span>
-        <img className="night" alt="plus-icon" src="assets/night-mode.png" />
-        <img className="light" alt="plus-icon" src="assets/light-mode.png" />
+        <img className="night" alt="plus-icon" src="night-mode.png" />
+        <img className="light" alt="plus-icon" src="light-mode.png" />
       </label>
     </Container>
   );

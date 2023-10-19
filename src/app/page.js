@@ -1,12 +1,13 @@
+'use client'
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import Toggle from "./components/toggleSwitch";
+import Toggle from "../components/toggleSwitch";
 
 import { ThemeProvider } from "styled-components";
-import { dark, light } from "./styles/theme";
+import { dark, light } from "../styles/theme";
 
-function App() {
+export default function Home() {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [data, setdata] = useState([]);
@@ -65,9 +66,9 @@ function App() {
         <ActionsContainer>
           <AddButton onClick={() => setFormOpen(true)}>
             {theme === "light" ? (
-              <img alt="plus-icon" src="assets/plus-light.png"></img>
+              <img alt="plus-icon" src="plus-light.png" />
             ) : (
-              <img alt="plus-icon" src="assets/plus-dark.png"></img>
+              <img alt="plus-icon" src="plus-dark.png" />
             )}
           </AddButton>
           <Toggle changeTheme={() => changeTheme()} />
@@ -129,8 +130,6 @@ function App() {
     </ThemeProvider>
   );
 }
-
-export default App;
 
 const Wrapper = styled.div`
   display: flex;
