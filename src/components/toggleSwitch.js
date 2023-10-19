@@ -1,13 +1,30 @@
 import styled from "styled-components";
+import Image from "next/image";
 
-const ToggleSwitch = ({changeTheme}) => {
+const ToggleSwitch = ({ changeTheme }) => {
   return (
     <Container>
-      <input type="checkbox" id="hide-checkbox" onChange={() => changeTheme()} />
+      <input
+        type="checkbox"
+        id="hide-checkbox"
+        onChange={() => changeTheme()}
+      />
       <label for="hide-checkbox" className="toggle">
         <span className="toggle-button"></span>
-        <img className="night" alt="plus-icon" src="night-mode.png" />
-        <img className="light" alt="plus-icon" src="light-mode.png" />
+        <Image
+          className="night"
+          alt="plus-icon"
+          src="/night-mode.png"
+          width={24}
+          height={24}
+        />
+        <Image
+          className="light"
+          alt="plus-icon"
+          src="/light-mode.png"
+          width={24}
+          height={24}
+        />
       </label>
     </Container>
   );
@@ -47,11 +64,6 @@ const Container = styled.div`
     overflow: hidden;
     box-shadow: 0 0 35px 4px rgba(255, 255, 255);
     transition: all 500ms ease-out;
-  }
-
-  img {
-    width: 1.5rem;
-    height: 1.5rem;
   }
 
   .light {

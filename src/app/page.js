@@ -1,8 +1,9 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import Toggle from "../components/toggleSwitch";
+import Image from "next/image";
 
 import { ThemeProvider } from "styled-components";
 import { dark, light } from "../styles/theme";
@@ -66,9 +67,19 @@ export default function Home() {
         <ActionsContainer>
           <AddButton onClick={() => setFormOpen(true)}>
             {theme === "light" ? (
-              <img alt="plus-icon" src="plus-light.png" />
+              <Image
+                alt="plus-icon"
+                src="/plus-light.png"
+                width={25.6}
+                height={25.6}
+              />
             ) : (
-              <img alt="plus-icon" src="plus-dark.png" />
+              <Image
+                alt="plus-icon"
+                src="/plus-dark.png"
+                width={25.6}
+                height={25.6}
+              />
             )}
           </AddButton>
           <Toggle changeTheme={() => changeTheme()} />
@@ -162,10 +173,6 @@ const AddButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  img {
-    width: 1.6rem;
-    height: 1.6rem;
-  }
 `;
 
 const AddNewTaskForm = styled.div`
