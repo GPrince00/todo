@@ -108,8 +108,9 @@ export default function Home() {
                 value={taskDescription}
               />
               <div className="buttonContainer">
-                <button type="submit">Save</button>
+                <button className="save" type="submit">Save</button>
                 <button
+                  className="cancel"
                   onClick={() => {
                     setTaskDescription("");
                     setTaskTitle("");
@@ -208,6 +209,19 @@ const AddNewTaskForm = styled.div`
       display: flex;
       button {
         width: 100%;
+        height: 2.5rem;
+        border-radius: 4px;
+        font-size: 1.1rem;
+      }
+      .cancel {
+        margin-left: 0.2rem;
+        border: 1px solid #791313;
+        background-color: #ff3131;
+      }
+      .save {
+        margin-right: 0.2rem;
+        border: 1px solid #00600a;
+        background-color: #10aa2f;
       }
     }
   }
