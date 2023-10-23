@@ -136,7 +136,14 @@ export default function Home() {
                 <p id="title">{item.task}</p>
                 <p id="description">{item.description}</p>
               </TextContainer>
-              <button onClick={() => deleteItem(item.uuid)}>delete</button>
+              <CheckTaskContainer onClick={() => deleteItem(item.uuid)}>
+                <Image
+                  alt="plus-icon"
+                  src="/check.png"
+                  width={25.6}
+                  height={25.6}
+                />
+              </CheckTaskContainer>
             </Item>
           ))}
         </List>
@@ -234,4 +241,10 @@ const TextContainer = styled.div`
   #description {
     font-size: 0.8rem;
   }
+`;
+const CheckTaskContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
 `;
