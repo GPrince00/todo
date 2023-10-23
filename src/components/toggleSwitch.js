@@ -9,7 +9,7 @@ const ToggleSwitch = ({ changeTheme }) => {
         id="hide-checkbox"
         onChange={() => changeTheme()}
       />
-      <label for="hide-checkbox" className="toggle">
+      <label htmlFor="hide-checkbox" className="toggle">
         <span className="toggle-button"></span>
         <Image
           className="night"
