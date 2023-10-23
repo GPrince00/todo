@@ -14,10 +14,11 @@ export default function Home() {
   const [data, setdata] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(0);
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme"));
 
   useEffect(() => {
     setdata(JSON.parse(localStorage.getItem("data")) || []);
+    document.getElementById("hide-checkbox").checked = theme;
   }, []);
 
   const addItem = () => {
@@ -57,26 +58,28 @@ export default function Home() {
   };
 
   const changeTheme = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
+    let isDark = document.getElementById("hide-checkbox").checked;
+    setTheme(isDark);
+    localStorage.setItem("theme", JSON.stringify(isDark));
   };
 
   return (
-    <ThemeProvider theme={theme === "light" ? light : dark}>
+    <ThemeProvider theme={theme ? dark : light}>
       <Wrapper>
         <Title>To do</Title>
         <ActionsContainer>
           <AddButton onClick={() => setFormOpen(true)}>
-            {theme === "light" ? (
+            {theme ? (
               <Image
                 alt="plus-icon"
-                src="/plus-light.png"
+                src="/plus-dark.png"
                 width={25.6}
                 height={25.6}
               />
             ) : (
               <Image
                 alt="plus-icon"
-                src="/plus-dark.png"
+                src="/plus-light.png"
                 width={25.6}
                 height={25.6}
               />
