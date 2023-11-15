@@ -14,11 +14,12 @@ export default function Home() {
   const [data, setdata] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(0);
-  const [theme, setTheme] = useState(localStorage.getItem("theme"));
+  const [theme, setTheme] = useState(false);
 
   useEffect(() => {
     setdata(JSON.parse(localStorage.getItem("data")) || []);
     document.getElementById("hide-checkbox").checked = theme;
+    setTheme(localStorage.getItem("theme"))
   }, []);
 
   const addItem = () => {
