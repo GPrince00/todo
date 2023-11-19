@@ -15,11 +15,13 @@ export default function Home() {
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(0);
   const [theme, setTheme] = useState(false);
+  const [date, setDate] = useState({})
 
   useEffect(() => {
     setdata(JSON.parse(localStorage.getItem("data")) || []);
     document.getElementById("hide-checkbox").checked = theme;
-    setTheme(localStorage.getItem("theme"))
+    setTheme(localStorage.getItem("theme"));
+    getDate();
   }, []);
 
   const addItem = () => {
@@ -62,6 +64,38 @@ export default function Home() {
     let isDark = document.getElementById("hide-checkbox").checked;
     setTheme(isDark);
     localStorage.setItem("theme", JSON.stringify(isDark));
+  };
+
+  const getDate = () => {
+    let date = new Date();
+    let months = [
+      "Jan",
+      "Fev",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    let week = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    setDate({
+      day: date.getDate(),
+      month: months[date.getMonth()],
+      weekDay: week[date.getDay()]
+    })
   };
 
   return (
@@ -109,7 +143,9 @@ export default function Home() {
                 value={taskDescription}
               />
               <div className="buttonContainer">
-                <button className="save" type="submit">Save</button>
+                <button className="save" type="submit">
+                  Save
+                </button>
                 <button
                   className="cancel"
                   onClick={() => {
