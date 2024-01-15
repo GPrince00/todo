@@ -15,7 +15,7 @@ export default function Home() {
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(0);
   const [theme, setTheme] = useState(false);
-  const [date, setDate] = useState({})
+  const [date, setDate] = useState({});
 
   useEffect(() => {
     setdata(JSON.parse(localStorage.getItem("data")) || []);
@@ -30,12 +30,24 @@ export default function Home() {
       uuid: uuidv4(),
       task: taskTitle,
       description: taskDescription,
+      done: "",
     });
     setdata(updateddata);
     localStorage.setItem("data", JSON.stringify(updateddata));
     setTaskDescription("");
     setTaskTitle("");
     setFormOpen(false);
+  };
+
+  const checkItem = (index) => {
+    let updateddata = data.slice();
+    if (updateddata[index].done) {
+      updateddata[index] = { ...updateddata[index], ...{ done: "" } };
+    } else {
+      updateddata[index] = { ...updateddata[index], ...{ done: "done" } };
+    }
+    setdata(updateddata);
+    localStorage.setItem("data", JSON.stringify(updateddata));
   };
 
   const deleteItem = (uuid) => {
@@ -94,8 +106,8 @@ export default function Home() {
     setDate({
       day: date.getDate(),
       month: months[date.getMonth()],
-      weekDay: week[date.getDay()]
-    })
+      weekDay: week[date.getDay()],
+    });
   };
 
   return (
@@ -163,6 +175,10 @@ export default function Home() {
         <List>
           {data.map((item, index) => (
             <Item key={index}>
+              <CheckContainer
+                done={item.done}
+                onClick={() => checkItem(index)}
+              ></CheckContainer>
               <TextContainer
                 onClick={() => {
                   setEditing(index);
@@ -174,14 +190,14 @@ export default function Home() {
                 <p id="title">{item.task}</p>
                 <p id="description">{item.description}</p>
               </TextContainer>
-              <CheckTaskContainer onClick={() => deleteItem(item.uuid)}>
+              {/* <CheckTaskContainer onClick={() => deleteItem(item.uuid)}>
                 <Image
                   alt="plus-icon"
                   src="/check.png"
                   width={25.6}
                   height={25.6}
                 />
-              </CheckTaskContainer>
+              </CheckTaskContainer> */}
             </Item>
           ))}
         </List>
@@ -276,14 +292,26 @@ const Item = styled.div`
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   justify-content: space-between;
+  align-items: center;
   border: 1px solid black;
   border-radius: 4px;
+`;
+
+const CheckContainer = styled.div`
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  border: 0.5px solid black;
+  background-color: ${({ done }) => (done ? "black" : "white")};
+  background-image: ${({ done }) => (done ? `url(check-1.png)` : "")};
+  background-size: ${({ done }) => (done ? "contain" : "")};
 `;
 
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
   #title {
     font-size: 1rem;
     font-weight: 500;
