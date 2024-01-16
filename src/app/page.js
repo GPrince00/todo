@@ -115,23 +115,6 @@ export default function Home() {
       <Wrapper>
         <Title>To do</Title>
         <ActionsContainer>
-          <AddButton onClick={() => setFormOpen(true)}>
-            {theme ? (
-              <Image
-                alt="plus-icon"
-                src="/plus-dark.png"
-                width={25.6}
-                height={25.6}
-              />
-            ) : (
-              <Image
-                alt="plus-icon"
-                src="/plus-light.png"
-                width={25.6}
-                height={25.6}
-              />
-            )}
-          </AddButton>
           <Toggle changeTheme={() => changeTheme()} />
         </ActionsContainer>
         {formOpen && (
@@ -201,6 +184,23 @@ export default function Home() {
             </Item>
           ))}
         </List>
+        <AddButton onClick={() => setFormOpen(true)}>
+          {theme ? (
+            <Image
+              alt="plus-icon"
+              src="/plus-dark.png"
+              width={25.6}
+              height={25.6}
+            />
+          ) : (
+            <Image
+              alt="plus-icon"
+              src="/plus-light.png"
+              width={25.6}
+              height={25.6}
+            />
+          )}
+        </AddButton>
       </Wrapper>
     </ThemeProvider>
   );
@@ -232,11 +232,13 @@ const AddButton = styled.div`
   background-color: ${({ theme }) => theme.primary};
   border: 1px solid ${({ theme }) => theme.secundary};
   border-radius: 50%;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  bottom: 0;
+  margin-bottom: 0.5rem;
 `;
 
 const AddNewTaskForm = styled.div`
@@ -284,6 +286,8 @@ const List = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 1rem;
+  height: 80%;
+  overflow-x: scroll;
 `;
 
 const Item = styled.div`
