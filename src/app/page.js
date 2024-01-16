@@ -210,9 +210,13 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
   background-color: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.text};
+  position:absolute;
+  top:0px;
+  right:0px;
+  bottom:0px;
+  left:0px;
 `;
 
 const Title = styled.h1`
