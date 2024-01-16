@@ -254,6 +254,8 @@ const AddButton = styled.div`
 const AddNewTaskForm = styled.div`
   position: absolute;
   /* background-color: ${({ theme }) => theme.secundary}; FUTURE-DARK-MODE */
+  background-color: white;
+  border: 1px solid black;
   border-radius: 4px;
   width: 16rem;
   margin: 50%;
