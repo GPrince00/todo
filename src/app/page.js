@@ -112,9 +112,7 @@ export default function Home() {
   return (
     // <ThemeProvider theme={theme ? dark : light}> FUTURE-DARK-MODE
     <Wrapper>
-      {/* <ActionsContainer> FUTURE-DARK-MODE
-          <Toggle changeTheme={() => changeTheme()} />
-        </ActionsContainer> */}
+      {/* <Toggle changeTheme={() => changeTheme()} /> FUTURE-DARK-MODE */}
       <DateContainer>
         <div id="day">
           <p>{date.day}</p>
@@ -219,11 +217,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   /* background-color: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.text}; FUTURE-DARK-MODE*/
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
+  height: 100dvh;
 `;
 
 const DateContainer = styled.div`
@@ -243,12 +237,6 @@ const DateContainer = styled.div`
   }
 `;
 
-const ActionsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 90%;
-`;
 const AddButton = styled.div`
   /* background-color: ${({ theme }) => theme.primary};
   border: 1px solid ${({ theme }) => theme.secundary}; FUTURE-DARK-MODE*/
@@ -308,8 +296,8 @@ const List = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 1rem;
-  height: 80%;
-  overflow-x: scroll;
+  height: 85%;
+  overflow: scroll;
 `;
 
 const Item = styled.div`
