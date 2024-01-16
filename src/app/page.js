@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Toggle from "../components/toggleSwitch";
 import Image from "next/image";
 
-import { ThemeProvider } from "styled-components";
+//import { ThemeProvider } from "styled-components"; FUTURE-DARK-MODE
 import { dark, light } from "../styles/theme";
 
 export default function Home() {
@@ -14,13 +14,13 @@ export default function Home() {
   const [data, setdata] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(0);
-  const [theme, setTheme] = useState(false);
+  // const [theme, setTheme] = useState(false); FUTURE-DARK-MODE
   const [date, setDate] = useState({});
 
   useEffect(() => {
     setdata(JSON.parse(localStorage.getItem("data")) || []);
-    document.getElementById("hide-checkbox").checked = theme;
-    setTheme(localStorage.getItem("theme"));
+    // document.getElementById("hide-checkbox").checked = theme; FUTURE-DARK-MODE
+    // setTheme(localStorage.getItem("theme")); FUTURE-DARK-MODE
     getDate();
   }, []);
 
@@ -72,11 +72,11 @@ export default function Home() {
     setFormOpen(false);
   };
 
-  const changeTheme = () => {
-    let isDark = document.getElementById("hide-checkbox").checked;
-    setTheme(isDark);
-    localStorage.setItem("theme", JSON.stringify(isDark));
-  };
+  // const changeTheme = () => { FUTURE-DARK-MODE
+  //   let isDark = document.getElementById("hide-checkbox").checked;
+  //   setTheme(isDark);
+  //   localStorage.setItem("theme", JSON.stringify(isDark));
+  // };
 
   const getDate = () => {
     let date = new Date();
@@ -111,12 +111,12 @@ export default function Home() {
   };
 
   return (
-    <ThemeProvider theme={theme ? dark : light}>
+    // <ThemeProvider theme={theme ? dark : light}> FUTURE-DARK-MODE
       <Wrapper>
         <Title>To do</Title>
-        <ActionsContainer>
+        {/* <ActionsContainer> FUTURE-DARK-MODE
           <Toggle changeTheme={() => changeTheme()} />
-        </ActionsContainer>
+        </ActionsContainer> */}
         {formOpen && (
           <AddNewTaskForm>
             <form onSubmit={() => (editing ? editItem() : addItem())}>
@@ -185,24 +185,24 @@ export default function Home() {
           ))}
         </List>
         <AddButton onClick={() => setFormOpen(true)}>
-          {theme ? (
+          {/* {theme ? ( FUTURE-DARK-MODE
             <Image
               alt="plus-icon"
               src="/plus-dark.png"
               width={25.6}
               height={25.6}
             />
-          ) : (
+          ) : ( */}
             <Image
               alt="plus-icon"
               src="/plus-light.png"
               width={25.6}
               height={25.6}
             />
-          )}
+          {/* )} FUTURE-DARK-MODE */}
         </AddButton>
       </Wrapper>
-    </ThemeProvider>
+    // </ThemeProvider> FUTURE-DARK-MODE
   );
 }
 
@@ -210,8 +210,8 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.text};
+  /* background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.text}; FUTURE-DARK-MODE*/
   position:absolute;
   top:0px;
   right:0px;
@@ -233,8 +233,9 @@ const ActionsContainer = styled.div`
   width: 90%;
 `;
 const AddButton = styled.div`
-  background-color: ${({ theme }) => theme.primary};
-  border: 1px solid ${({ theme }) => theme.secundary};
+  /* background-color: ${({ theme }) => theme.primary};
+  border: 1px solid ${({ theme }) => theme.secundary}; FUTURE-DARK-MODE*/
+  border: 1px solid #000;
   border-radius: 50%;
   width: 3rem;
   height: 3rem;
@@ -247,7 +248,7 @@ const AddButton = styled.div`
 
 const AddNewTaskForm = styled.div`
   position: absolute;
-  background-color: ${({ theme }) => theme.secundary};
+  /* background-color: ${({ theme }) => theme.secundary}; FUTURE-DARK-MODE */
   border-radius: 4px;
   width: 16rem;
   margin: 50%;
@@ -295,14 +296,11 @@ const List = styled.div`
 `;
 
 const Item = styled.div`
-  background-color: ${({ theme }) => theme.primary};
   display: flex;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid black;
-  border-radius: 4px;
 `;
 
 const CheckContainer = styled.div`
