@@ -4,9 +4,8 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import Toggle from "../components/toggleSwitch";
 import Image from "next/image";
-
 //import { ThemeProvider } from "styled-components"; FUTURE-DARK-MODE
-import { dark, light } from "../styles/theme";
+// import { dark, light } from "../styles/theme"; FUTURE-DARK-MODE
 
 export default function Home() {
   const [taskTitle, setTaskTitle] = useState("");
@@ -14,8 +13,8 @@ export default function Home() {
   const [data, setdata] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(0);
-  // const [theme, setTheme] = useState(false); FUTURE-DARK-MODE
   const [date, setDate] = useState({});
+  // const [theme, setTheme] = useState(false); FUTURE-DARK-MODE
 
   useEffect(() => {
     setdata(JSON.parse(localStorage.getItem("data")) || []);
@@ -112,68 +111,76 @@ export default function Home() {
 
   return (
     // <ThemeProvider theme={theme ? dark : light}> FUTURE-DARK-MODE
-      <Wrapper>
-        <Title>To do</Title>
-        {/* <ActionsContainer> FUTURE-DARK-MODE
+    <Wrapper>
+      {/* <ActionsContainer> FUTURE-DARK-MODE
           <Toggle changeTheme={() => changeTheme()} />
         </ActionsContainer> */}
-        {formOpen && (
-          <AddNewTaskForm>
-            <form onSubmit={() => (editing ? editItem() : addItem())}>
-              <h1>Add Task Form</h1>
-              <h3>Task</h3>
-              <input
-                id="task"
-                name="task"
-                type="text"
-                onChange={(e) => setTaskTitle(e.target.value)}
-                value={taskTitle}
-              />
-              <h3>Description</h3>
-              <input
-                id="description"
-                name="description"
-                type="text"
-                onChange={(e) => setTaskDescription(e.target.value)}
-                value={taskDescription}
-              />
-              <div className="buttonContainer">
-                <button className="save" type="submit">
-                  Save
-                </button>
-                <button
-                  className="cancel"
-                  onClick={() => {
-                    setTaskDescription("");
-                    setTaskTitle("");
-                    setFormOpen(false);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </AddNewTaskForm>
-        )}
-        <List>
-          {data.map((item, index) => (
-            <Item key={index}>
-              <CheckContainer
-                done={item.done}
-                onClick={() => checkItem(index)}
-              ></CheckContainer>
-              <TextContainer
+      <DateContainer>
+        <div id="day">
+          <p>{date.day}</p>
+        </div>
+        <div>
+          <p id="month">{date.month}</p>
+          <p id="weekday">{date.weekDay}</p>
+        </div>
+      </DateContainer>
+      {formOpen && (
+        <AddNewTaskForm>
+          <form onSubmit={() => (editing ? editItem() : addItem())}>
+            <h1>Add Task Form</h1>
+            <h3>Task</h3>
+            <input
+              id="task"
+              name="task"
+              type="text"
+              onChange={(e) => setTaskTitle(e.target.value)}
+              value={taskTitle}
+            />
+            <h3>Description</h3>
+            <input
+              id="description"
+              name="description"
+              type="text"
+              onChange={(e) => setTaskDescription(e.target.value)}
+              value={taskDescription}
+            />
+            <div className="buttonContainer">
+              <button className="save" type="submit">
+                Save
+              </button>
+              <button
+                className="cancel"
                 onClick={() => {
-                  setEditing(index);
-                  setTaskDescription(item.description);
-                  setTaskTitle(item.task);
-                  setFormOpen(true);
+                  setTaskDescription("");
+                  setTaskTitle("");
+                  setFormOpen(false);
                 }}
               >
-                <p id="title">{item.task}</p>
-                <p id="description">{item.description}</p>
-              </TextContainer>
-              {/* <CheckTaskContainer onClick={() => deleteItem(item.uuid)}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </AddNewTaskForm>
+      )}
+      <List>
+        {data.map((item, index) => (
+          <Item key={index}>
+            <CheckContainer
+              done={item.done}
+              onClick={() => checkItem(index)}
+            ></CheckContainer>
+            <TextContainer
+              onClick={() => {
+                setEditing(index);
+                setTaskDescription(item.description);
+                setTaskTitle(item.task);
+                setFormOpen(true);
+              }}
+            >
+              <p id="title">{item.task}</p>
+              <p id="description">{item.description}</p>
+            </TextContainer>
+            {/* <CheckTaskContainer onClick={() => deleteItem(item.uuid)}>
                 <Image
                   alt="plus-icon"
                   src="/check.png"
@@ -181,11 +188,11 @@ export default function Home() {
                   height={25.6}
                 />
               </CheckTaskContainer> */}
-            </Item>
-          ))}
-        </List>
-        <AddButton onClick={() => setFormOpen(true)}>
-          {/* {theme ? ( FUTURE-DARK-MODE
+          </Item>
+        ))}
+      </List>
+      <AddButton onClick={() => setFormOpen(true)}>
+        {/* {theme ? ( FUTURE-DARK-MODE
             <Image
               alt="plus-icon"
               src="/plus-dark.png"
@@ -193,15 +200,15 @@ export default function Home() {
               height={25.6}
             />
           ) : ( */}
-            <Image
-              alt="plus-icon"
-              src="/plus-light.png"
-              width={25.6}
-              height={25.6}
-            />
-          {/* )} FUTURE-DARK-MODE */}
-        </AddButton>
-      </Wrapper>
+        <Image
+          alt="plus-icon"
+          src="/plus-light.png"
+          width={25.6}
+          height={25.6}
+        />
+        {/* )} FUTURE-DARK-MODE */}
+      </AddButton>
+    </Wrapper>
     // </ThemeProvider> FUTURE-DARK-MODE
   );
 }
@@ -212,18 +219,28 @@ const Wrapper = styled.div`
   flex-direction: column;
   /* background-color: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.text}; FUTURE-DARK-MODE*/
-  position:absolute;
-  top:0px;
-  right:0px;
-  bottom:0px;
-  left:0px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
 `;
 
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 1rem 0 0.5rem;
-  font-family: "Young Serif", serif;
+const DateContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  #day {
+    font-size: 4rem;
+  }
+  #month {
+    font-weight: 500;
+    font-size: 1.2rem;
+  }
+  #weekday {
+    font-weight: 300;
+    font-size: 1.7rem;
+  }
 `;
 
 const ActionsContainer = styled.div`
