@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 // import Toggle from "../components/toggleSwitch"; FUTURE-DARK-MODE
 import Image from "next/image";
+import { GoPlus } from "react-icons/go";
 //import { ThemeProvider } from "styled-components"; FUTURE-DARK-MODE
 // import { dark, light } from "../styles/theme"; FUTURE-DARK-MODE
 
@@ -208,12 +209,7 @@ export default function Home() {
               height={25.6}
             />
           ) : ( */}
-        <Image
-          alt="plus-icon"
-          src="/plus-light.png"
-          width={25.6}
-          height={25.6}
-        />
+        <GoPlus className="plus" />
         {/* )} FUTURE-DARK-MODE */}
       </AddButton>
     </Wrapper>
@@ -250,15 +246,17 @@ const DateContainer = styled.div`
 const AddButton = styled.div`
   /* background-color: ${({ theme }) => theme.primary};
   border: 1px solid ${({ theme }) => theme.secundary}; FUTURE-DARK-MODE*/
-  border: 1px solid #000;
   border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   bottom: 0;
   margin-bottom: 0.5rem;
+  font-size: 3rem;
+  color: #505050;
+  background-color: #d0d0d0;
 `;
 
 const AddNewTaskForm = styled.div`
