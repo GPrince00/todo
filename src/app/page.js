@@ -2,11 +2,11 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import Toggle from "../components/toggleSwitch";
+// import Toggle from "../components/toggleSwitch"; FUTURE-DARK-MODE
 import Image from "next/image";
-
-import { ThemeProvider } from "styled-components";
-import { dark, light } from "../styles/theme";
+import { GoPlus } from "react-icons/go";
+//import { ThemeProvider } from "styled-components"; FUTURE-DARK-MODE
+// import { dark, light } from "../styles/theme"; FUTURE-DARK-MODE
 
 export default function Home() {
   const [taskTitle, setTaskTitle] = useState("");
@@ -14,13 +14,13 @@ export default function Home() {
   const [data, setdata] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(0);
-  const [theme, setTheme] = useState(false);
-  const [date, setDate] = useState({})
+  const [date, setDate] = useState({});
+  // const [theme, setTheme] = useState(false); FUTURE-DARK-MODE
 
   useEffect(() => {
     setdata(JSON.parse(localStorage.getItem("data")) || []);
-    document.getElementById("hide-checkbox").checked = theme;
-    setTheme(localStorage.getItem("theme"));
+    // document.getElementById("hide-checkbox").checked = theme; FUTURE-DARK-MODE
+    // setTheme(localStorage.getItem("theme")); FUTURE-DARK-MODE
     getDate();
   }, []);
 
@@ -30,6 +30,7 @@ export default function Home() {
       uuid: uuidv4(),
       task: taskTitle,
       description: taskDescription,
+      done: "",
     });
     setdata(updateddata);
     localStorage.setItem("data", JSON.stringify(updateddata));
@@ -38,11 +39,27 @@ export default function Home() {
     setFormOpen(false);
   };
 
-  const deleteItem = (uuid) => {
+  const checkItem = (index) => {
+    let updateddata = data.slice();
+    if (updateddata[index].done) {
+      updateddata[index] = { ...updateddata[index], ...{ done: "" } };
+    } else {
+      updateddata[index] = { ...updateddata[index], ...{ done: "done" } };
+    }
+    setdata(updateddata);
+    localStorage.setItem("data", JSON.stringify(updateddata));
+  };
+
+  const deleteItem = () => {
     let array = data.slice();
-    const updateddata = array.filter((item) => item.uuid !== uuid);
+    const updateddata = array.filter(
+      (item) => item.uuid !== array[editing].uuid
+    );
     localStorage.setItem("data", JSON.stringify(updateddata));
     setdata(updateddata);
+    setTaskDescription("");
+    setTaskTitle("");
+    setFormOpen(false);
   };
 
   const editItem = () => {
@@ -60,11 +77,11 @@ export default function Home() {
     setFormOpen(false);
   };
 
-  const changeTheme = () => {
-    let isDark = document.getElementById("hide-checkbox").checked;
-    setTheme(isDark);
-    localStorage.setItem("theme", JSON.stringify(isDark));
-  };
+  // const changeTheme = () => { FUTURE-DARK-MODE
+  //   let isDark = document.getElementById("hide-checkbox").checked;
+  //   setTheme(isDark);
+  //   localStorage.setItem("theme", JSON.stringify(isDark));
+  // };
 
   const getDate = () => {
     let date = new Date();
@@ -94,99 +111,109 @@ export default function Home() {
     setDate({
       day: date.getDate(),
       month: months[date.getMonth()],
-      weekDay: week[date.getDay()]
-    })
+      weekDay: week[date.getDay()],
+    });
   };
 
   return (
-    <ThemeProvider theme={theme ? dark : light}>
-      <Wrapper>
-        <Title>To do</Title>
-        <ActionsContainer>
-          <AddButton onClick={() => setFormOpen(true)}>
-            {theme ? (
-              <Image
-                alt="plus-icon"
-                src="/plus-dark.png"
-                width={25.6}
-                height={25.6}
-              />
-            ) : (
-              <Image
-                alt="plus-icon"
-                src="/plus-light.png"
-                width={25.6}
-                height={25.6}
-              />
-            )}
-          </AddButton>
-          <Toggle changeTheme={() => changeTheme()} />
-        </ActionsContainer>
-        {formOpen && (
-          <AddNewTaskForm>
-            <form onSubmit={() => (editing ? editItem() : addItem())}>
+    // <ThemeProvider theme={theme ? dark : light}> FUTURE-DARK-MODE
+    <Wrapper>
+      {/* <Toggle changeTheme={() => changeTheme()} /> FUTURE-DARK-MODE */}
+      <DateContainer>
+        <div id="day">
+          <p>{date.day}</p>
+        </div>
+        <div>
+          <p id="month">{date.month}</p>
+          <p id="weekday">{date.weekDay}</p>
+        </div>
+      </DateContainer>
+      {formOpen && (
+        <AddNewTaskForm>
+          <form onSubmit={() => (editing ? editItem() : addItem())}>
+            <div className="TitleContainer">
               <h1>Add Task Form</h1>
-              <h3>Task</h3>
-              <input
-                id="task"
-                name="task"
-                type="text"
-                onChange={(e) => setTaskTitle(e.target.value)}
-                value={taskTitle}
-              />
-              <h3>Description</h3>
-              <input
-                id="description"
-                name="description"
-                type="text"
-                onChange={(e) => setTaskDescription(e.target.value)}
-                value={taskDescription}
-              />
-              <div className="buttonContainer">
-                <button className="save" type="submit">
-                  Save
-                </button>
-                <button
-                  className="cancel"
-                  onClick={() => {
-                    setTaskDescription("");
-                    setTaskTitle("");
-                    setFormOpen(false);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </AddNewTaskForm>
-        )}
-        <List>
-          {data.map((item, index) => (
-            <Item key={index}>
-              <TextContainer
+              <span
+                id="close"
                 onClick={() => {
-                  setEditing(index);
-                  setTaskDescription(item.description);
-                  setTaskTitle(item.task);
-                  setFormOpen(true);
+                  setTaskDescription("");
+                  setTaskTitle("");
+                  setFormOpen(false);
                 }}
               >
-                <p id="title">{item.task}</p>
-                <p id="description">{item.description}</p>
-              </TextContainer>
-              <CheckTaskContainer onClick={() => deleteItem(item.uuid)}>
+                X
+              </span>
+            </div>
+            <h3>Task</h3>
+            <input
+              id="task"
+              name="task"
+              type="text"
+              onChange={(e) => setTaskTitle(e.target.value)}
+              value={taskTitle}
+            />
+            <h3>Description</h3>
+            <input
+              id="description"
+              name="description"
+              type="text"
+              onChange={(e) => setTaskDescription(e.target.value)}
+              value={taskDescription}
+            />
+            <div className="buttonContainer">
+              <button className="save" type="submit">
+                Save
+              </button>
+              <button className="delete" onClick={() => deleteItem()}>
+                Delete
+              </button>
+            </div>
+          </form>
+        </AddNewTaskForm>
+      )}
+      <List>
+        {data.map((item, index) => (
+          <Item key={index}>
+            <CheckContainer
+              done={item.done}
+              onClick={() => checkItem(index)}
+            ></CheckContainer>
+            <TextContainer
+              onClick={() => {
+                setEditing(index);
+                setTaskDescription(item.description);
+                setTaskTitle(item.task);
+                setFormOpen(true);
+              }}
+            >
+              <p id="title">{item.task}</p>
+              <p id="description">{item.description}</p>
+            </TextContainer>
+            {/* <CheckTaskContainer onClick={() => deleteItem(item.uuid)}>
                 <Image
                   alt="plus-icon"
                   src="/check.png"
                   width={25.6}
                   height={25.6}
                 />
-              </CheckTaskContainer>
-            </Item>
-          ))}
-        </List>
-      </Wrapper>
-    </ThemeProvider>
+              </CheckTaskContainer> */}
+          </Item>
+        ))}
+      </List>
+      <AddButton onClick={() => setFormOpen(true)}>
+        {/* {theme ? ( FUTURE-DARK-MODE
+            <Image
+              alt="plus-icon"
+              src="/plus-dark.png"
+              width={25.6}
+              height={25.6}
+            />
+          ) : ( */}
+        <GoPlus className="plus" />
+        {/* )} FUTURE-DARK-MODE */}
+      </AddButton>
+    </Wrapper>
+    // </ThemeProvider> FUTURE-DARK-MODE
   );
 }
 
@@ -194,38 +221,49 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.text};
+  /* background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.text}; FUTURE-DARK-MODE*/
+  height: 100dvh;
 `;
 
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 1rem 0 0.5rem;
-  font-family: "Young Serif", serif;
-`;
-
-const ActionsContainer = styled.div`
+const DateContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 90%;
+  margin-top: 1rem;
+  #day {
+    font-size: 4rem;
+  }
+  #month {
+    font-weight: 500;
+    font-size: 1.2rem;
+  }
+  #weekday {
+    font-weight: 300;
+    font-size: 1.7rem;
+  }
 `;
+
 const AddButton = styled.div`
-  background-color: ${({ theme }) => theme.primary};
-  border: 1px solid ${({ theme }) => theme.secundary};
+  /* background-color: ${({ theme }) => theme.primary};
+  border: 1px solid ${({ theme }) => theme.secundary}; FUTURE-DARK-MODE*/
   border-radius: 50%;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  bottom: 0;
+  margin-bottom: 0.5rem;
+  font-size: 3rem;
+  color: #505050;
+  background-color: #d0d0d0;
 `;
 
 const AddNewTaskForm = styled.div`
   position: absolute;
-  background-color: ${({ theme }) => theme.secundary};
+  /* background-color: ${({ theme }) => theme.secundary}; FUTURE-DARK-MODE */
+  background-color: white;
+  border: 1px solid black;
   border-radius: 4px;
   width: 16rem;
   margin: 50%;
@@ -233,6 +271,14 @@ const AddNewTaskForm = styled.div`
   form {
     display: flex;
     flex-direction: column;
+    .TitleContainer {
+      display: flex;
+      justify-content: space-between;
+    }
+    #close {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
     h1 {
       font-weight: 700;
       font-size: 1.5rem;
@@ -250,7 +296,7 @@ const AddNewTaskForm = styled.div`
         border-radius: 4px;
         font-size: 1.1rem;
       }
-      .cancel {
+      .delete {
         margin-left: 0.2rem;
         border: 1px solid #791313;
         background-color: #ff3131;
@@ -268,22 +314,33 @@ const List = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 1rem;
+  height: 85%;
+  overflow: scroll;
 `;
 
 const Item = styled.div`
-  background-color: ${({ theme }) => theme.primary};
   display: flex;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   justify-content: space-between;
-  border: 1px solid black;
+  align-items: center;
+`;
+
+const CheckContainer = styled.div`
+  width: 1.4rem;
+  height: 1.4rem;
   border-radius: 4px;
+  margin-right: 0.5rem;
+  border: 0.5px solid black;
+  background-color: ${({ done }) => (done ? "black" : "white")};
+  background-image: ${({ done }) => (done ? `url(check-1.png)` : "")};
+  background-size: ${({ done }) => (done ? "contain" : "")};
 `;
 
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
   #title {
     font-size: 1rem;
     font-weight: 500;
