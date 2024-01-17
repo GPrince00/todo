@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import Toggle from "../components/toggleSwitch";
+// import Toggle from "../components/toggleSwitch"; FUTURE-DARK-MODE
 import Image from "next/image";
 //import { ThemeProvider } from "styled-components"; FUTURE-DARK-MODE
 // import { dark, light } from "../styles/theme"; FUTURE-DARK-MODE
@@ -49,11 +49,16 @@ export default function Home() {
     localStorage.setItem("data", JSON.stringify(updateddata));
   };
 
-  const deleteItem = (uuid) => {
+  const deleteItem = () => {
     let array = data.slice();
-    const updateddata = array.filter((item) => item.uuid !== uuid);
+    const updateddata = array.filter(
+      (item) => item.uuid !== array[editing].uuid
+    );
     localStorage.setItem("data", JSON.stringify(updateddata));
     setdata(updateddata);
+    setTaskDescription("");
+    setTaskTitle("");
+    setFormOpen(false);
   };
 
   const editItem = () => {
@@ -125,7 +130,19 @@ export default function Home() {
       {formOpen && (
         <AddNewTaskForm>
           <form onSubmit={() => (editing ? editItem() : addItem())}>
-            <h1>Add Task Form</h1>
+            <div className="TitleContainer">
+              <h1>Add Task Form</h1>
+              <span
+                id="close"
+                onClick={() => {
+                  setTaskDescription("");
+                  setTaskTitle("");
+                  setFormOpen(false);
+                }}
+              >
+                X
+              </span>
+            </div>
             <h3>Task</h3>
             <input
               id="task"
@@ -146,15 +163,8 @@ export default function Home() {
               <button className="save" type="submit">
                 Save
               </button>
-              <button
-                className="cancel"
-                onClick={() => {
-                  setTaskDescription("");
-                  setTaskTitle("");
-                  setFormOpen(false);
-                }}
-              >
-                Cancel
+              <button className="delete" onClick={() => deleteItem()}>
+                Delete
               </button>
             </div>
           </form>
@@ -263,6 +273,14 @@ const AddNewTaskForm = styled.div`
   form {
     display: flex;
     flex-direction: column;
+    .TitleContainer {
+      display: flex;
+      justify-content: space-between;
+    }
+    #close {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
     h1 {
       font-weight: 700;
       font-size: 1.5rem;
@@ -280,7 +298,7 @@ const AddNewTaskForm = styled.div`
         border-radius: 4px;
         font-size: 1.1rem;
       }
-      .cancel {
+      .delete {
         margin-left: 0.2rem;
         border: 1px solid #791313;
         background-color: #ff3131;
