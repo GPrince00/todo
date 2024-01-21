@@ -13,7 +13,7 @@ export default function Home() {
   const [taskDescription, setTaskDescription] = useState("");
   const [data, setdata] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
-  const [editing, setEditing] = useState(0);
+  const [editing, setEditing] = useState(null);
   const [date, setDate] = useState({});
   // const [theme, setTheme] = useState(false); FUTURE-DARK-MODE
 
@@ -73,7 +73,7 @@ export default function Home() {
     localStorage.setItem("data", JSON.stringify(updateddata));
     setTaskDescription("");
     setTaskTitle("");
-    setEditing(0);
+    setEditing(null);
     setFormOpen(false);
   };
 
@@ -130,7 +130,7 @@ export default function Home() {
       </DateContainer>
       {formOpen && (
         <AddNewTaskForm>
-          <form onSubmit={() => (editing ? editItem() : addItem())}>
+          <form onSubmit={() => (editing !== null ? editItem() : addItem())}>
             <div className="TitleContainer">
               <h1>Add Task Form</h1>
               <span
