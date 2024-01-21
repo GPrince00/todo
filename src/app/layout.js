@@ -11,10 +11,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <link
-        href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Young+Serif&display=swap"
-        rel="stylesheet"
-      />
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Young+Serif&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );
