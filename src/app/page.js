@@ -186,8 +186,8 @@ export default function Home() {
                 setFormOpen(true);
               }}
             >
-              <p id="title">{item.task}</p>
-              <p id="description">{item.description}</p>
+              <p id="title" style={{textDecoration: item.done && "line-through"}}>{item.task}</p>
+              <p id="description" style={{textDecoration: item.done && "line-through"}}>{item.description}</p>
             </TextContainer>
             {/* <CheckTaskContainer onClick={() => deleteItem(item.uuid)}>
                 <Image
