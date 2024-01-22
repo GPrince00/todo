@@ -26,11 +26,13 @@ export default function Home() {
 
   const addItem = () => {
     let updateddata = data.slice();
+    let date = new Date()
     updateddata.push({
       uuid: uuidv4(),
       task: taskTitle,
       description: taskDescription,
       done: "",
+      createdAt: date.toDateString()
     });
     setdata(updateddata);
     localStorage.setItem("data", JSON.stringify(updateddata));
