@@ -67,7 +67,7 @@ export default function Home() {
   const editItem = () => {
     let updateddata = data.slice();
     updateddata[editing] = {
-      uuid: updateddata[editing].uuid,
+      ...updateddata[editing],
       task: taskTitle,
       description: taskDescription,
     };
