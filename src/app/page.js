@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 // import Toggle from "../components/toggleSwitch"; FUTURE-DARK-MODE
-import Image from "next/image";
 import { GoPlus } from "react-icons/go";
 //import { ThemeProvider } from "styled-components"; FUTURE-DARK-MODE
 // import { dark, light } from "../styles/theme"; FUTURE-DARK-MODE
@@ -209,14 +208,6 @@ export default function Home() {
                 {item.description}
               </p>
             </TextContainer>
-            {/* <CheckTaskContainer onClick={() => deleteItem(item.uuid)}>
-                <Image
-                  alt="plus-icon"
-                  src="/check.png"
-                  width={25.6}
-                  height={25.6}
-                />
-              </CheckTaskContainer> */}
           </Item>
         ))}
       </List>
