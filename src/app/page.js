@@ -18,7 +18,13 @@ export default function Home() {
   // const [theme, setTheme] = useState(false); FUTURE-DARK-MODE
 
   useEffect(() => {
-    setdata(JSON.parse(localStorage.getItem("data")) || []);
+    let date = new Date();
+    let allTasks = JSON.parse(localStorage.getItem("data")).slice() || [];
+    const updatedTasks = allTasks.filter(
+      (item) => !item.done || date.toDateString() === item.done
+    );
+    setdata(updatedTasks);
+    localStorage.setItem("data", JSON.stringify(updatedTasks));
     // document.getElementById("hide-checkbox").checked = theme; FUTURE-DARK-MODE
     // setTheme(localStorage.getItem("theme")); FUTURE-DARK-MODE
     getDate();
@@ -26,13 +32,11 @@ export default function Home() {
 
   const addItem = () => {
     let updateddata = data.slice();
-    let date = new Date()
     updateddata.push({
       uuid: uuidv4(),
       task: taskTitle,
       description: taskDescription,
       done: "",
-      createdAt: date.toDateString()
     });
     setdata(updateddata);
     localStorage.setItem("data", JSON.stringify(updateddata));
@@ -43,10 +47,14 @@ export default function Home() {
 
   const checkItem = (index) => {
     let updateddata = data.slice();
+    let date = new Date();
     if (updateddata[index].done) {
       updateddata[index] = { ...updateddata[index], ...{ done: "" } };
     } else {
-      updateddata[index] = { ...updateddata[index], ...{ done: "done" } };
+      updateddata[index] = {
+        ...updateddata[index],
+        ...{ done: date.toDateString() },
+      };
     }
     setdata(updateddata);
     localStorage.setItem("data", JSON.stringify(updateddata));
@@ -188,8 +196,18 @@ export default function Home() {
                 setFormOpen(true);
               }}
             >
-              <p id="title" style={{textDecoration: item.done && "line-through"}}>{item.task}</p>
-              <p id="description" style={{textDecoration: item.done && "line-through"}}>{item.description}</p>
+              <p
+                id="title"
+                style={{ textDecoration: item.done && "line-through" }}
+              >
+                {item.task}
+              </p>
+              <p
+                id="description"
+                style={{ textDecoration: item.done && "line-through" }}
+              >
+                {item.description}
+              </p>
             </TextContainer>
             {/* <CheckTaskContainer onClick={() => deleteItem(item.uuid)}>
                 <Image
