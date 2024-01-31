@@ -2,10 +2,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-// import Toggle from "../components/toggleSwitch"; FUTURE-DARK-MODE
 import { GoPlus } from "react-icons/go";
-//import { ThemeProvider } from "styled-components"; FUTURE-DARK-MODE
-// import { dark, light } from "../styles/theme"; FUTURE-DARK-MODE
 
 export default function Home() {
   const [taskTitle, setTaskTitle] = useState("");
@@ -14,7 +11,6 @@ export default function Home() {
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [date, setDate] = useState({});
-  // const [theme, setTheme] = useState(false); FUTURE-DARK-MODE
 
   useEffect(() => {
     let date = new Date();
@@ -24,8 +20,6 @@ export default function Home() {
     );
     setdata(updatedTasks);
     localStorage.setItem("data", JSON.stringify(updatedTasks));
-    // document.getElementById("hide-checkbox").checked = theme; FUTURE-DARK-MODE
-    // setTheme(localStorage.getItem("theme")); FUTURE-DARK-MODE
     getDate();
   }, []);
 
@@ -86,12 +80,6 @@ export default function Home() {
     setFormOpen(false);
   };
 
-  // const changeTheme = () => { FUTURE-DARK-MODE
-  //   let isDark = document.getElementById("hide-checkbox").checked;
-  //   setTheme(isDark);
-  //   localStorage.setItem("theme", JSON.stringify(isDark));
-  // };
-
   const getDate = () => {
     let date = new Date();
     let months = [
@@ -125,9 +113,7 @@ export default function Home() {
   };
 
   return (
-    // <ThemeProvider theme={theme ? dark : light}> FUTURE-DARK-MODE
     <Wrapper>
-      {/* <Toggle changeTheme={() => changeTheme()} /> FUTURE-DARK-MODE */}
       <DateContainer>
         <div id="day">
           <p>{date.day}</p>
@@ -212,19 +198,9 @@ export default function Home() {
         ))}
       </List>
       <AddButton onClick={() => setFormOpen(true)}>
-        {/* {theme ? ( FUTURE-DARK-MODE
-            <Image
-              alt="plus-icon"
-              src="/plus-dark.png"
-              width={25.6}
-              height={25.6}
-            />
-          ) : ( */}
         <GoPlus className="plus" />
-        {/* )} FUTURE-DARK-MODE */}
       </AddButton>
     </Wrapper>
-    // </ThemeProvider> FUTURE-DARK-MODE
   );
 }
 
@@ -232,8 +208,6 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  /* background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.text}; FUTURE-DARK-MODE*/
   height: 100dvh;
 `;
 
@@ -255,8 +229,6 @@ const DateContainer = styled.div`
 `;
 
 const AddButton = styled.div`
-  /* background-color: ${({ theme }) => theme.primary};
-  border: 1px solid ${({ theme }) => theme.secundary}; FUTURE-DARK-MODE*/
   border-radius: 50%;
   width: 3.5rem;
   height: 3.5rem;
@@ -272,7 +244,6 @@ const AddButton = styled.div`
 
 const AddNewTaskForm = styled.div`
   position: absolute;
-  /* background-color: ${({ theme }) => theme.secundary}; FUTURE-DARK-MODE */
   background-color: white;
   border: 1px solid black;
   border-radius: 4px;
@@ -360,10 +331,4 @@ const TextContainer = styled.div`
   #description {
     font-size: 0.8rem;
   }
-`;
-const CheckTaskContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
 `;
